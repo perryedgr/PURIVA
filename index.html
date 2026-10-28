@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PURIVA Smart Air Purifier – Dashboard Prototype</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.383.0/dist/umd/lucide.min.js"></script>
+</head><body>
+
+<main id="login" class="login" hidden>
+<form id="lf" class="c lcard" novalidate>
+ <img src="assets/logo.png" class="llogo" alt="Logo PURIVA">
+ <h1>PURIVA Smart Air Purifier</h1>
+ <span class="badge warn">DATA SIMULASI / DUMMY</span>
+ <label for="u">Username</label><input id="u" autocomplete="username" placeholder="Masukkan username">
+ <label for="p">Password</label>
+ <div class="pw"><input id="p" type="password" autocomplete="current-password" placeholder="Masukkan password"><button type="button" id="tp" class="btn">Tampilkan</button></div>
+ <label class="chk"><input type="checkbox" id="rm"> Ingat saya</label>
+ <p id="le" class="err" role="alert" hidden></p>
+ <button class="btn pri" id="lb">Masuk ke Dashboard</button>
+</form></main>
+
+<div id="app" hidden>
+<aside id="side" class="side">
+ <div class="logo"><img src="assets/logo.png" alt="PURIVA"></div>
+ <nav id="nav">
+  <button class="nv" data-p="dash"><i data-lucide="layout-dashboard"></i>Dashboard</button>
+  <button class="nv" data-p="mon"><i data-lucide="activity"></i>Monitoring Udara</button>
+  <button class="nv" data-p="fil"><i data-lucide="filter"></i>Sistem Filtrasi</button>
+  <button class="nv" data-p="his"><i data-lucide="table"></i>Riwayat Data</button>
+  <button class="nv" data-p="set"><i data-lucide="settings"></i>Pengaturan</button>
+ </nav>
+ <div class="user"><i data-lucide="user-circle"></i><div><b>Administrator</b><small class="mu">Akun demo</small></div></div>
+ <button class="nv" id="lo"><i data-lucide="log-out"></i>Logout</button>
+</aside>
+<div id="ov" class="ov"></div>
+
+<div class="main">
+<header class="top">
+ <button id="mb" class="btn ib" aria-label="Buka menu"><i data-lucide="menu"></i></button>
+ <div class="tt"><h2 id="pt">Dashboard</h2><small class="mu" id="clock"></small></div>
+ 
+</header>
+
+<div class="pages">
+<section class="pg" id="pg-dash" hidden>
+ <div class="c hero"><div><h3>PURIVA – Smart Air Purifier</h3><small class="mu">Prototype demonstrasi. Seluruh nilai pada dashboard adalah data simulasi.</small></div>
+ <div>Pembaruan terakhir: <b data-b="upd"></b></div></div>
+ <div class="cards" id="cards-d"></div>
+ <div class="g2">
+  <div class="c"><h3>Kontrol Perangkat (Simulasi)</h3><div class="btns ctl"></div><small class="mu">Perubahan hanya memengaruhi simulasi di browser, bukan perangkat fisik.</small></div>
+  <div class="c"><h3>Aktivitas Sistem Terbaru</h3><ul class="actl" data-b="actl"></ul></div>
+ </div>
+ <div class="g2">
+  <div class="c"><h3>Suhu udara – 1 jam terakhir (simulasi)</h3><div class="cw"><canvas id="ch-d1"></canvas></div></div>
+  <div class="c"><h3>Respons MQ-135 – 1 jam terakhir (simulasi)</h3><div class="cw"><canvas id="ch-d2"></canvas></div></div>
+ </div>
+ <div class="c info"><i data-lucide="mic"></i><p>Integrasi Google Assistant untuk kontrol aktif/nonaktif PURIVA</p></div>
+</section>
+
+<section class="pg" id="pg-mon" hidden>
+ <div class="bar"><div class="seg" id="rg"><button data-r="1h">1 jam</button><button data-r="24h">24 jam</button><button data-r="7d">7 hari</button></div>
+ <small class="mu">Pembaruan terakhir: <b data-b="upd"></b></small></div>
+ <div class="cards" id="cards-m"></div>
+ <div class="g2">
+  <div class="c"><h3>Suhu terhadap waktu</h3><div class="cw"><canvas id="ch-m1"></canvas></div></div>
+  <div class="c"><h3>Kelembapan terhadap waktu</h3><div class="cw"><canvas id="ch-m2"></canvas></div></div>
+  <div class="c"><h3>Respons MQ-135 terhadap waktu</h3><div class="cw"><canvas id="ch-m3"></canvas></div></div>
+  <div class="c"><h3>Resistansi gas BME680 terhadap waktu</h3><div class="cw"><canvas id="ch-m4"></canvas></div></div>
+ </div>
+</section>
+
+<section class="pg" id="pg-fil" hidden>
+ <div class="c"><h3>Alur Udara pada PURIVA</h3>
+  <div class="fw"><div class="flow">
+   <div class="stg"><i data-lucide="wind"></i><b>Udara kotor masuk</b></div><span class="arr"></span>
+   <div class="stg"><div class="valve"><i></i><i></i></div><b>Katup stomata</b></div><span class="arr"></span>
+   <div class="stg"><div class="ly l1"></div><b>Prefilter</b></div><span class="arr"></span>
+   <div class="stg"><div class="ly l2"></div><b>HEPA</b></div><span class="arr"></span>
+   <div class="stg"><div class="ly l3"></div><b>Karbon aktif</b></div><span class="arr"></span>
+   <div class="stg"><i data-lucide="fan" class="fanic"></i><b>Kipas</b></div><span class="arr"></span>
+   <div class="stg"><i data-lucide="leaf"></i><b>Udara hasil filtrasi keluar</b></div>
+  </div></div>
+  <p><span class="badge" data-b="flow"></span> <small class="mu">Aliran udara hanya berjalan saat kipas menyala dan katup terbuka.</small></p>
+ </div>
+ <div class="g3">
+  <div class="c"><h3>Prefilter</h3><p>Menahan debu dan partikel berukuran besar untuk mengurangi beban filter berikutnya.</p></div>
+  <div class="c"><h3>HEPA</h3><p>Menangkap partikel halus, termasuk PM2.5.</p></div>
+  <div class="c"><h3>Karbon aktif</h3><p>Mengadsorpsi sebagian gas dan senyawa penyebab bau. Efektivitasnya bergantung pada jenis polutan, karakteristik karbon, jumlah media, dan kondisi pemakaian.</p></div>
+ </div>
+ <div class="g2">
+  <div class="c"><h3>Katup Stomata (Simulasi Biomimetik)</h3>
+   <div class="stoma"><div class="gc l"></div><div class="gc r"></div></div>
+   <p class="ctr">Status katup: <span class="badge" data-b="valve"></span> · Bukaan: <b data-b="vp"></b></p>
+   <div class="btns ctl"></div>
+  </div>
+  <div class="c"><h3>Konsep Biomimetik Stomata</h3>
+   <p>Stomata adalah pori pada daun yang bukaannya diatur oleh sel penjaga. PURIVA meniru prinsip pengaturan bukaan tersebut melalui katup atau flap mekanis di saluran udara masuk.</p>
+   <p class="mu">Visualisasi ini adalah analogi mekanis dari prinsip stomata dan simulasi konsep biomimetik, bukan gambaran mekanisme biologis yang sesungguhnya.</p></div>
+ </div>
+</section>
+
+<section class="pg" id="pg-his" hidden>
+ <div class="c">
+  <div class="bar"><input id="hq" type="search" placeholder="Cari data riwayat…" aria-label="Cari riwayat">
+   <select id="hr" aria-label="Filter rentang waktu"><option value="all">Semua waktu</option><option value="1h">1 jam terakhir</option><option value="24h">24 jam terakhir</option><option value="7d">7 hari terakhir</option></select>
+   <button class="btn" data-a="sort" id="sortb"></button>
+   <button class="btn pri" data-a="csv"><i data-lucide="download"></i>Ekspor CSV</button></div>
+  <div class="tw"><table><thead><tr><th>Waktu</th><th>Suhu (°C)</th><th>Kelembapan (%RH)</th><th>MQ-135 (ADC)</th><th>Resistansi gas BME680 (Ω)</th><th>Tekanan (hPa)</th><th>Status PURIVA</th><th>Status kipas</th></tr></thead><tbody id="hb"></tbody></table></div>
+  <div class="bar"><small class="mu" id="hi"></small><div><button class="btn" data-a="prev">Sebelumnya</button> <button class="btn" data-a="next">Berikutnya</button></div></div>
+ </div>
+</section>
+
+<section class="pg" id="pg-set" hidden>
+ <div class="g2">
+  <div class="c"><h3>Interval Simulasi</h3><div class="seg"><button data-iv="2">2 detik</button><button data-iv="5">5 detik</button><button data-iv="10">10 detik</button></div></div>
+  <div class="c"><h3>Tema</h3><div class="seg"><button data-th="light">Terang</button><button data-th="dark">Gelap</button></div></div>
+  <div class="c"><h3>Kontrol Simulasi</h3><div class="btns"><button class="btn pri" data-a="sstart">Mulai simulasi</button><button class="btn" data-a="spause">Jeda simulasi</button><button class="btn" data-a="sreset">Reset ke kondisi awal</button></div>
+   <small class="mu">Reset tidak menghapus status login.</small></div>
+ </div>
+</section>
+</div>
+
+<footer class="foot">Prototype ini menggunakan data simulasi. Nilai sensor bukan hasil pengukuran udara nyata. MQ-135 menampilkan nilai respons/ADC simulasi, sedangkan BME680 menampilkan parameter suhu, kelembapan, tekanan, dan resistansi gas simulasi. Sistem ini tidak menghasilkan pengukuran PM2.5 atau AQI yang tervalidasi.</footer>
+</div></div>
+<div id="toasts" aria-live="polite"></div>
+<script src="js/app.js"></script>
+</body></html>
