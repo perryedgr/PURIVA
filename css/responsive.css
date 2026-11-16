@@ -104,6 +104,7 @@
   .ps-comparison-grid,
   .tech-deepdive-grid,
   .showcase-stage,
+  .video-showcase-card,
   .proto-cta-banner,
   .roadmap-target-grid {
     grid-template-columns: 1fr;
@@ -177,6 +178,7 @@
   .ps-column,
   .deepdive-card,
   .showcase-wrapper,
+  .video-showcase-card,
   .roadmap-box,
   .market-poster-box {
     padding: 22px 18px;
