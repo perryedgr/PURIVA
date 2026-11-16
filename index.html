@@ -1,128 +1,1215 @@
 <!DOCTYPE html>
-<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PURIVA Smart Air Purifier – Dashboard Prototype</title>
-<link rel="icon" href="assets/logo.png">
-<link rel="stylesheet" href="css/style.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lucide@0.383.0/dist/umd/lucide.min.js"></script>
-</head><body>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PURIVA — Smart Air Purifier Berbasis Biomimetik | Inovasi Udara Bersih Kalimantan</title>
+  <meta name="description" content="PURIVA adalah konsep Smart Air Purifier berbasis teknologi biomimetik stomata daun dan IoT untuk membantu melindungi kelompok rentan dari ancaman polusi dan kabut asap karhutla di Kalimantan.">
+  <meta name="keywords" content="PURIVA, Smart Air Purifier, Biomimetik, Stomata Daun, Karhutla Kalimantan, IoT Air Quality Monitoring, ESP32, BME680, MQ-135, Universitas Tanjungpura">
+  <meta name="author" content="Tim PURIVA — Universitas Tanjungpura Pontianak">
+  <meta name="theme-color" content="#0876B9">
 
-<main id="login" class="login" hidden>
-<form id="lf" class="c lcard" novalidate>
- <img src="assets/logo.png" class="llogo" alt="Logo PURIVA">
- <h1>PURIVA Smart Air Purifier</h1>
- <span class="badge warn">DATA SIMULASI / DUMMY</span>
- <label for="u">Username</label><input id="u" autocomplete="username" placeholder="Masukkan username">
- <label for="p">Password</label>
- <div class="pw"><input id="p" type="password" autocomplete="current-password" placeholder="Masukkan password"><button type="button" id="tp" class="btn">Tampilkan</button></div>
- <label class="chk"><input type="checkbox" id="rm"> Ingat saya</label>
- <p id="le" class="err" role="alert" hidden></p>
- <button class="btn pri" id="lb">Masuk ke Dashboard</button>
-</form></main>
+  <!-- Open Graph / Social Media Metadata -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="id_ID">
+  <meta property="og:title" content="PURIVA — Smart Air Purification for a Healthier Tomorrow">
+  <meta property="og:description" content="Inovasi pemurni udara berbasis biomimetik untuk membantu melindungi kelompok rentan dari ancaman polusi dan kabut asap karhutla di Kalimantan.">
+  <meta property="og:image" content="assets/product/puriva-render.png">
 
-<div id="app" hidden>
-<aside id="side" class="side">
- <div class="logo"><img src="assets/logo.png" alt="PURIVA"></div>
- <nav id="nav">
-  <button class="nv" data-p="dash"><i data-lucide="layout-dashboard"></i>Dashboard</button>
-  <button class="nv" data-p="mon"><i data-lucide="activity"></i>Monitoring Udara</button>
-  <button class="nv" data-p="fil"><i data-lucide="filter"></i>Sistem Filtrasi</button>
-  <button class="nv" data-p="his"><i data-lucide="table"></i>Riwayat Data</button>
-  <button class="nv" data-p="set"><i data-lucide="settings"></i>Pengaturan</button>
- </nav>
- <div class="user"><i data-lucide="user-circle"></i><div><b>Administrator</b><small class="mu">Akun demo</small></div></div>
- <button class="nv" id="lo"><i data-lucide="log-out"></i>Logout</button>
-</aside>
-<div id="ov" class="ov"></div>
+  <!-- Twitter Card Metadata -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PURIVA — Smart Air Purifier Berbasis Biomimetik">
+  <meta name="twitter:description" content="Inovasi pemurni udara berbasis biomimetik untuk membantu melindungi kelompok rentan dari ancaman polusi dan kabut asap karhutla di Kalimantan.">
+  <meta name="twitter:image" content="assets/product/puriva-render.png">
 
-<div class="main">
-<header class="top">
- <button id="mb" class="btn ib" aria-label="Buka menu"><i data-lucide="menu"></i></button>
- <div class="tt"><h2 id="pt">Dashboard</h2><small class="mu" id="clock"></small></div>
- 
-</header>
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="apple-touch-icon" href="assets/logo.png">
 
-<div class="pages">
-<section class="pg" id="pg-dash" hidden>
- <div class="c hero"><div><h3>PURIVA – Smart Air Purifier</h3><small class="mu">Prototype demonstrasi. Seluruh nilai pada dashboard adalah data simulasi.</small></div>
- <div>Pembaruan terakhir: <b data-b="upd"></b></div></div>
- <div class="cards" id="cards-d"></div>
- <div class="g2">
-  <div class="c"><h3>Kontrol Perangkat (Simulasi)</h3><div class="btns ctl"></div><small class="mu">Perubahan hanya memengaruhi simulasi di browser, bukan perangkat fisik.</small></div>
-  <div class="c"><h3>Aktivitas Sistem Terbaru</h3><ul class="actl" data-b="actl"></ul></div>
- </div>
- <div class="g2">
-  <div class="c"><h3>Suhu udara – 1 jam terakhir (simulasi)</h3><div class="cw"><canvas id="ch-d1"></canvas></div></div>
-  <div class="c"><h3>Respons MQ-135 – 1 jam terakhir (simulasi)</h3><div class="cw"><canvas id="ch-d2"></canvas></div></div>
- </div>
- <div class="c info"><i data-lucide="mic"></i><p>Integrasi Google Assistant untuk kontrol aktif/nonaktif PURIVA</p></div>
-</section>
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 
-<section class="pg" id="pg-mon" hidden>
- <div class="bar"><div class="seg" id="rg"><button data-r="1h">1 jam</button><button data-r="24h">24 jam</button><button data-r="7d">7 hari</button></div>
- <small class="mu">Pembaruan terakhir: <b data-b="upd"></b></small></div>
- <div class="cards" id="cards-m"></div>
- <div class="g2">
-  <div class="c"><h3>Suhu terhadap waktu</h3><div class="cw"><canvas id="ch-m1"></canvas></div></div>
-  <div class="c"><h3>Kelembapan terhadap waktu</h3><div class="cw"><canvas id="ch-m2"></canvas></div></div>
-  <div class="c"><h3>Respons MQ-135 terhadap waktu</h3><div class="cw"><canvas id="ch-m3"></canvas></div></div>
-  <div class="c"><h3>Resistansi gas BME680 terhadap waktu</h3><div class="cw"><canvas id="ch-m4"></canvas></div></div>
- </div>
-</section>
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
 
-<section class="pg" id="pg-fil" hidden>
- <div class="c"><h3>Alur Udara pada PURIVA</h3>
-  <div class="fw"><div class="flow">
-   <div class="stg"><i data-lucide="wind"></i><b>Udara kotor masuk</b></div><span class="arr"></span>
-   <div class="stg"><div class="valve"><i></i><i></i></div><b>Katup stomata</b></div><span class="arr"></span>
-   <div class="stg"><div class="ly l1"></div><b>Prefilter</b></div><span class="arr"></span>
-   <div class="stg"><div class="ly l2"></div><b>HEPA</b></div><span class="arr"></span>
-   <div class="stg"><div class="ly l3"></div><b>Karbon aktif</b></div><span class="arr"></span>
-   <div class="stg"><i data-lucide="fan" class="fanic"></i><b>Kipas</b></div><span class="arr"></span>
-   <div class="stg"><i data-lucide="leaf"></i><b>Udara hasil filtrasi keluar</b></div>
-  </div></div>
-  <p><span class="badge" data-b="flow"></span> <small class="mu">Aliran udara hanya berjalan saat kipas menyala dan katup terbuka.</small></p>
- </div>
- <div class="g3">
-  <div class="c"><h3>Prefilter</h3><p>Menahan debu dan partikel berukuran besar untuk mengurangi beban filter berikutnya.</p></div>
-  <div class="c"><h3>HEPA</h3><p>Menangkap partikel halus, termasuk PM2.5.</p></div>
-  <div class="c"><h3>Karbon aktif</h3><p>Mengadsorpsi sebagian gas dan senyawa penyebab bau. Efektivitasnya bergantung pada jenis polutan, karakteristik karbon, jumlah media, dan kondisi pemakaian.</p></div>
- </div>
- <div class="g2">
-  <div class="c"><h3>Katup Stomata (Simulasi Biomimetik)</h3>
-   <div class="stoma"><div class="gc l"></div><div class="gc r"></div></div>
-   <p class="ctr">Status katup: <span class="badge" data-b="valve"></span> · Bukaan: <b data-b="vp"></b></p>
-   <div class="btns ctl"></div>
+  <!-- Lucide Icons -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.383.0/dist/umd/lucide.min.js" defer></script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Lewati ke konten utama</a>
+
+  <!-- =====================================================================
+       A. NAVIGATION BAR
+       ===================================================================== -->
+  <header class="site-header" id="site-header">
+    <div class="container nav-container">
+      <a href="#home" class="brand-logo" aria-label="PURIVA Beranda">
+        <img src="assets/logo.png" alt="Logo PURIVA" width="138" height="40">
+      </a>
+
+      <nav class="main-nav" id="main-nav" aria-label="Navigasi Utama">
+        <ul class="nav-list">
+          <li><a href="#home" class="nav-link active">Home</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#technology" class="nav-link">Technology</a></li>
+          <li><a href="#features" class="nav-link">Features</a></li>
+          <li><a href="#product" class="nav-link">Product</a></li>
+          <li><a href="#team" class="nav-link">Team</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+        <div class="nav-mobile-cta">
+          <a href="prototype/" class="btn btn-primary btn-full">
+            <i data-lucide="activity"></i>
+            <span>Explore Prototype</span>
+          </a>
+        </div>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="prototype/" class="btn btn-primary nav-cta-btn">
+          <i data-lucide="activity"></i>
+          <span>Explore Prototype</span>
+        </a>
+        <button type="button" class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="main-nav">
+          <i data-lucide="menu" class="icon-menu"></i>
+          <i data-lucide="x" class="icon-close"></i>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-nav-backdrop" id="mobile-nav-backdrop" hidden></div>
+  </header>
+
+  <main id="main-content">
+    <!-- =====================================================================
+         B. HERO SECTION
+         ===================================================================== -->
+    <section class="hero-section" id="home" aria-labelledby="hero-heading">
+      <div class="hero-bg-glow" aria-hidden="true"></div>
+      <div class="container hero-grid">
+        <div class="hero-content reveal-up">
+          <div class="eyebrow-badge">
+            <span class="pulse-dot"></span>
+            <span>Biomimetic Environmental Technology · Kalimantan</span>
+          </div>
+          <h1 id="hero-heading" class="hero-title">PURIVA</h1>
+          <p class="hero-tagline">Smart Air Purification for a Healthier Tomorrow.</p>
+          <p class="hero-description">
+            Inovasi pemurni udara berbasis biomimetik untuk membantu melindungi kelompok rentan dari ancaman polusi dan kabut asap karhutla di Kalimantan.
+          </p>
+          <p class="hero-full-title">
+            <strong>Judul Proyek:</strong> Smart Air Purifier Berbasis Biomimetik untuk Melindungi Kelompok Rentan dari Ancaman Kabut Asap Karhutla di Kalimantan.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#about" class="btn btn-primary btn-lg">
+              <span>Explore PURIVA</span>
+              <i data-lucide="arrow-down-right"></i>
+            </a>
+            <a href="prototype/" class="btn btn-secondary btn-lg">
+              <i data-lucide="layout-dashboard"></i>
+              <span>Explore Prototype</span>
+            </a>
+          </div>
+
+          <div class="hero-highlights">
+            <div class="highlight-item">
+              <div class="highlight-icon"><i data-lucide="cpu"></i></div>
+              <div>
+                <strong>ESP32 + Dual Sensor</strong>
+                <span>MQ-135 &amp; BME680 Terintegrasi</span>
+              </div>
+            </div>
+            <div class="highlight-item">
+              <div class="highlight-icon green"><i data-lucide="leaf"></i></div>
+              <div>
+                <strong>Konsep Stomata Daun</strong>
+                <span>Inspirasi Biomimetik Adaptif</span>
+              </div>
+            </div>
+            <div class="highlight-item">
+              <div class="highlight-icon"><i data-lucide="shield-check"></i></div>
+              <div>
+                <strong>Filtrasi 3 Tahap</strong>
+                <span>Pre-filter, HEPA, Karbon Aktif</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal-scale">
+          <div class="product-stage">
+            <div class="stage-ring ring-outer" aria-hidden="true"></div>
+            <div class="stage-ring ring-inner" aria-hidden="true"></div>
+            <img
+              src="assets/product/puriva-render.png"
+              alt="Perangkat fisik PURIVA Smart Air Purifier dengan layar LCD 16x2 di bagian depan dan kipas sirkulasi udara di samping"
+              class="hero-product-img floating-img"
+              width="720"
+              height="600"
+            >
+
+            <!-- Floating Card 1: Sensor Telemetry -->
+            <div class="floating-card card-top-left">
+              <div class="fc-icon blue"><i data-lucide="gauge"></i></div>
+              <div class="fc-body">
+                <span class="fc-label">Deteksi Multi-Parameter</span>
+                <strong class="fc-val">MQ-135 &amp; BME680</strong>
+                <small class="fc-sub">Suhu · RH · Tekanan · Respons Gas</small>
+              </div>
+            </div>
+
+            <!-- Floating Card 2: Biomimetic Concept -->
+            <div class="floating-card card-bottom-left">
+              <div class="fc-icon green"><i data-lucide="sprout"></i></div>
+              <div class="fc-body">
+                <span class="fc-label">Konsep Biomimetik</span>
+                <strong class="fc-val">Katup Stomata Adaptif</strong>
+                <small class="fc-sub">Analogi mekanis pori daun</small>
+              </div>
+            </div>
+
+            <!-- Floating Card 3: Microcontroller -->
+            <div class="floating-card card-top-right">
+              <div class="fc-icon navy"><i data-lucide="wifi"></i></div>
+              <div class="fc-body">
+                <span class="fc-label">Pemrosesan &amp; IoT</span>
+                <strong class="fc-val">ESP32 + LCD 16x2</strong>
+                <small class="fc-sub">Kontrol Relay &amp; Kipas DC</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         C. ABOUT PURIVA
+         ===================================================================== -->
+    <section class="section about-section" id="about" aria-labelledby="about-heading">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">Tentang Proyek</span>
+          <h2 id="about-heading" class="section-title">Mengenal Inovasi PURIVA</h2>
+          <p class="section-subtitle">
+            Menggabungkan penginderaan lingkungan, mikrokontroler, sirkulasi udara, dan konsep filtrasi adaptif terinspirasi biomimetik untuk mendukung kualitas udara dalam ruangan yang lebih bersih.
+          </p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-text-col reveal-up">
+            <article class="about-card-main">
+              <h3>Apa Itu PURIVA?</h3>
+              <p>
+                <strong>PURIVA</strong> adalah konsep <em>smart air purifier</em> berbasis teknologi biomimetik yang dirancang untuk memantau kondisi kualitas udara sekitar dan mendukung pemurnian udara di dalam ruangan. Proyek ini dikembangkan sebagai respons terhadap ancaman polusi udara, khususnya bencana kabut asap akibat kebakaran hutan dan lahan (karhutla) di wilayah Kalimantan.
+              </p>
+              <p>
+                Saat kabut asap melanda, polutan halus dan gas berbahaya tidak hanya mencemari ruang terbuka, tetapi juga menyusup ke dalam rumah, ruang kelas, dan fasilitas layanan kesehatan. Kelompok rentan seperti bayi, balita, anak-anak, ibu hamil, lansia, serta penderita gangguan pernapasan (seperti asma dan PPOK) menghadapi risiko kesehatan tertinggi.
+              </p>
+
+              <div class="biomimetic-callout">
+                <div class="callout-icon"><i data-lucide="leaf"></i></div>
+                <div>
+                  <h4>Inspirasi Biomimetik Stomata Daun</h4>
+                  <p>
+                    Stomata adalah pori mikroskopis pada permukaan daun yang bukaannya diatur secara adaptif oleh sel penjaga sesuai kondisi lingkungan. PURIVA mengadaptasi prinsip tersebut melalui konsep <strong>katup mekanis (flap)</strong> pada saluran udara masuk yang dikombinasikan dengan pembacaan sensor lingkungan dan filtrasi berlapis.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <div class="vision-mission-grid">
+              <div class="vm-card">
+                <div class="vm-header">
+                  <i data-lucide="eye"></i>
+                  <h4>Visi Proyek</h4>
+                </div>
+                <p>Menjadi inovasi pemurni udara berbasis konsep biomimetik yang membantu menghadirkan udara bersih dan layak bagi masyarakat di wilayah terdampak polusi udara.</p>
+              </div>
+              <div class="vm-card">
+                <div class="vm-header">
+                  <i data-lucide="target"></i>
+                  <h4>Tujuan Utama</h4>
+                </div>
+                <ul class="clean-check-list">
+                  <li>Mendukung udara dalam ruangan yang lebih bersih.</li>
+                  <li>Memantau parameter kualitas udara secara terukur.</li>
+                  <li>Membantu melindungi kelompok masyarakat rentan.</li>
+                  <li>Memperkenalkan konsep filtrasi adaptif biomimetik.</li>
+                  <li>Mendorong kesadaran kesehatan &amp; kelestarian lingkungan.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-visual-col reveal-up">
+            <div class="about-visual-stack">
+              <div class="visual-frame primary-frame">
+                <img
+                  src="assets/hardware/exploded-view.jpeg"
+                  alt="Ilustrasi exploded-view arsitektur perangkat keras internal PURIVA: BME680, MQ-135, ESP32, LCD 16x2, Relay, dan Kipas DC"
+                  loading="lazy"
+                  width="640"
+                  height="420"
+                >
+                <div class="frame-caption">
+                  <span class="status-pill implemented">Rancangan Perangkat Keras</span>
+                  <p>Tata letak komponen internal PURIVA dalam enclosure ringkas.</p>
+                </div>
+              </div>
+
+              <div class="transparency-box">
+                <div class="tb-header">
+                  <i data-lucide="info"></i>
+                  <h4>Transparansi Status Pengembangan</h4>
+                </div>
+                <p>Sebagai proyek inovasi akademik dan prototipe rekayasa, PURIVA membedakan secara jelas tahapan implementasi sistem:</p>
+                <div class="status-legend-grid">
+                  <div class="legend-item">
+                    <span class="dot-status ok"></span>
+                    <div>
+                      <strong>Perangkat Keras Terancang</strong>
+                      <small>Enclosure, ESP32, sensor MQ-135 &amp; BME680, LCD 16x2, Relay, dan Kipas DC.</small>
+                    </div>
+                  </div>
+                  <div class="legend-item">
+                    <span class="dot-status proto"></span>
+                    <div>
+                      <strong>Web Prototype Aktif</strong>
+                      <small>Dashboard pemantauan &amp; kontrol interaktif berbasis data simulasi/dummy.</small>
+                    </div>
+                  </div>
+                  <div class="legend-item">
+                    <span class="dot-status prop"></span>
+                    <div>
+                      <strong>Konsep &amp; Pengembangan Lanjut</strong>
+                      <small>Otomasi katup stomata adaptif penuh, uji laboratorium CADR, &amp; integrasi cloud nyata.</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         D. PROBLEM & SOLUTION
+         ===================================================================== -->
+    <section class="section problem-solution-section" id="problem-solution" aria-labelledby="ps-heading">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">Latar Belakang &amp; Solusi</span>
+          <h2 id="ps-heading" class="section-title">Ancaman Kabut Asap &amp; Respons PURIVA</h2>
+          <p class="section-subtitle">
+            Berangkat dari permasalahan polusi asap karhutla di Kalimantan menuju rancangan perangkat pemantau dan pemurni udara yang terjangkau.
+          </p>
+        </div>
+
+        <!-- Context Banner from Poster References -->
+        <div class="context-banner reveal-up">
+          <div class="context-stat">
+            <span class="stat-badge">Data Referensi Poster Proyek</span>
+            <strong class="stat-number">76.263,7 ha</strong>
+            <span class="stat-label">Indikasi luas kebakaran hutan &amp; lahan di Kalimantan; Kalimantan Barat menyumbang 50,23% (Kemenhut, 2026).</span>
+          </div>
+          <div class="context-divider" aria-hidden="true"></div>
+          <div class="context-stat">
+            <span class="stat-badge warn">Dampak Kesehatan Masyarakat</span>
+            <strong class="stat-number">333.470 Kasus</strong>
+            <span class="stat-label">Kasus ISPA yang tercatat di wilayah kabupaten/kota terdampak karhutla per Oktober 2026 (Kemenkes, 2026).</span>
+          </div>
+          <div class="context-divider" aria-hidden="true"></div>
+          <div class="context-stat">
+            <span class="stat-badge green">Fokus Perlindungan</span>
+            <strong class="stat-number">Kelompok Rentan</strong>
+            <span class="stat-label">Bayi, balita, anak-anak, lansia, penderita asma/PPOK, rumah tangga, klinik, dan institusi pendidikan.</span>
+          </div>
+        </div>
+
+        <div class="ps-comparison-grid">
+          <!-- Problem Column -->
+          <div class="ps-column problem-col reveal-up">
+            <div class="ps-col-header">
+              <div class="ps-icon-wrap warn"><i data-lucide="alert-triangle"></i></div>
+              <div>
+                <span class="ps-kicker">Tantangan Lingkungan</span>
+                <h3>Permasalahan Kualitas Udara</h3>
+              </div>
+            </div>
+
+            <div class="ps-cards-list">
+              <article class="ps-item-card">
+                <div class="ps-item-icon"><i data-lucide="flame"></i></div>
+                <div>
+                  <h4>Polusi Asap Karhutla Berulang</h4>
+                  <p>Kebakaran hutan dan lahan menghasilkan pekatnya asap dan polutan gas yang menurunkan kualitas udara secara drastis di pemukiman warga.</p>
+                </div>
+              </article>
+
+              <article class="ps-item-card">
+                <div class="ps-item-icon"><i data-lucide="wind"></i></div>
+                <div>
+                  <h4>Infiltrasi Polutan ke Dalam Ruangan</h4>
+                  <p>Udara di dalam rumah atau ruang belajar sering dianggap aman, padahal partikel debu halus dan senyawa gas tetap masuk melalui ventilasi.</p>
+                </div>
+              </article>
+
+              <article class="ps-item-card">
+                <div class="ps-item-icon"><i data-lucide="heart-pulse"></i></div>
+                <div>
+                  <h4>Kerentanan Saluran Pernapasan</h4>
+                  <p>Paparan udara tercemar meningkatkan risiko Infeksi Saluran Pernapasan Akut (ISPA), iritasi, dan komplikasi pada balita serta lansia.</p>
+                </div>
+              </article>
+
+              <article class="ps-item-card">
+                <div class="ps-item-icon"><i data-lucide="radar"></i></div>
+                <div>
+                  <h4>Keterbatasan Pemantauan Lokal</h4>
+                  <p>Masyarakat membutuhkan perangkat yang tidak hanya menyirkulasikan udara, tetapi juga memberikan informasi kondisi sensor di dalam ruangan secara langsung.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <!-- Solution Column -->
+          <div class="ps-column solution-col reveal-up">
+            <div class="ps-col-header">
+              <div class="ps-icon-wrap blue"><i data-lucide="shield-check"></i></div>
+              <div>
+                <span class="ps-kicker">Pendekatan Rekayasawan</span>
+                <h3>Solusi yang Diusulkan PURIVA</h3>
+              </div>
+            </div>
+
+            <div class="ps-cards-list">
+              <article class="ps-item-card">
+                <div class="ps-item-icon"><i data-lucide="cpu"></i></div>
+                <div>
+                  <h4>Integrasi Sensor Lingkungan &amp; Gas</h4>
+                  <p>Menggabungkan modul sensor <strong>MQ-135</strong> (respons gas/polutan) dan <strong>BME680</strong> (suhu, kelembapan, tekanan, dan resistansi gas).</p>
+                </div>
+              </article>
+
+              <article class="ps-item-card">
+                <div class="ps-item-icon"><i data-lucide="microchip"></i></div>
+                <div>
+                  <h4>Pemrosesan Berbasis Mikrokontroler ESP32</h4>
+                  <p>Menggunakan <strong>ESP32</strong> untuk mengolah sinyal sensor, menampilkan pembacaan pada <strong>LCD 16x2</strong>, dan mengatur modul <strong>Relay</strong> serta <strong>Kipas DC</strong>.</p>
+                </div>
+              </article>
+
+              <article class="ps-item-card">
+                <div class="ps-item-icon"><i data-lucide="leaf"></i></div>
+                <div>
+                  <h4>Konsep Filtrasi Adaptif Biomimetik</h4>
+                  <p>Menghadirkan rancangan bukaan katup terinspirasi stomata daun serta alur filtrasi 3 tahap: <strong>Pre-filter, HEPA filter, dan Karbon Aktif</strong>.</p>
+                </div>
+              </article>
+
+              <article class="ps-item-card">
+                <div class="ps-item-icon"><i data-lucide="layout-dashboard"></i></div>
+                <div>
+                  <h4>Desain Ringkas &amp; Prototype Dashboard Web</h4>
+                  <p>Enclosure minimalis yang mudah ditempatkan di berbagai ruangan, dilengkapi <em>Web Prototype</em> interaktif untuk demonstrasi pemantauan sistem.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         E. TECHNOLOGY & HOW IT WORKS
+         ===================================================================== -->
+    <section class="section technology-section" id="technology" aria-labelledby="tech-heading">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">Cara Kerja Sistem &amp; Teknologi</span>
+          <h2 id="tech-heading" class="section-title">Alur Kerja 7 Tahap PURIVA</h2>
+          <p class="section-subtitle">
+            Diagram alur proses dari pengambilan udara sekitar, deteksi sensor, pemrosesan mikrokontroler, hingga konsep filtrasi dan pemantauan dashboard.
+          </p>
+        </div>
+
+        <!-- Status Legend -->
+        <div class="stage-legend reveal-up" aria-label="Keterangan Status Tahapan">
+          <span class="stage-badge hw"><i data-lucide="check-circle-2"></i> Komponen Hardware Terancang</span>
+          <span class="stage-badge sim"><i data-lucide="laptop"></i> Tersedia di Web Prototype (Simulasi)</span>
+          <span class="stage-badge prop"><i data-lucide="sparkles"></i> Rancangan / Konsep Pengembangan</span>
+        </div>
+
+        <!-- 7-Stage Process Diagram -->
+        <div class="process-timeline">
+          <!-- Stage 1 -->
+          <article class="process-step reveal-up">
+            <div class="step-top">
+              <span class="step-num">01</span>
+              <div class="step-icon"><i data-lucide="fan"></i></div>
+              <span class="step-connector" aria-hidden="true"></span>
+            </div>
+            <div class="step-body">
+              <span class="step-status hw">Hardware Terancang</span>
+              <h3>1. Air Intake (Pengambilan Udara)</h3>
+              <p>Kipas DC menarik udara dari lingkungan sekitar melalui kisi ventilasi masuk menuju saluran perangkat PURIVA.</p>
+            </div>
+          </article>
+
+          <!-- Stage 2 -->
+          <article class="process-step reveal-up">
+            <div class="step-top">
+              <span class="step-num">02</span>
+              <div class="step-icon"><i data-lucide="scan-Search"></i></div>
+              <span class="step-connector" aria-hidden="true"></span>
+            </div>
+            <div class="step-body">
+              <span class="step-status hw">Hardware Terancang</span>
+              <h3>2. Air Quality Detection (Deteksi Polutan)</h3>
+              <p>Sensor <strong>MQ-135</strong> membaca respons gas/udara dan sensor <strong>BME680</strong> mengukur suhu, kelembapan, tekanan, serta resistansi gas.</p>
+            </div>
+          </article>
+
+          <!-- Stage 3 -->
+          <article class="process-step reveal-up">
+            <div class="step-top">
+              <span class="step-num">03</span>
+              <div class="step-icon"><i data-lucide="cpu"></i></div>
+              <span class="step-connector" aria-hidden="true"></span>
+            </div>
+            <div class="step-body">
+              <span class="step-status hw">Hardware Terancang</span>
+              <h3>3. Data Processing (Pemrosesan Data)</h3>
+              <p>Mikrokontroler <strong>ESP32</strong> mengolah sinyal dari kedua sensor, menampilkan status pada <strong>LCD 16x2</strong>, dan mengendalikan <strong>Relay Module</strong>.</p>
+            </div>
+          </article>
+
+          <!-- Stage 4 -->
+          <article class="process-step reveal-up">
+            <div class="step-top">
+              <span class="step-num">04</span>
+              <div class="step-icon green"><i data-lucide="sprout"></i></div>
+              <span class="step-connector" aria-hidden="true"></span>
+            </div>
+            <div class="step-body">
+              <span class="step-status prop">Rancangan &amp; Simulasi Web</span>
+              <h3>4. Adaptive Filtration Concept (Katup Stomata)</h3>
+              <p>Konsep bukaan katup adaptif yang meniru mekanisme stomata daun untuk mengatur aliran udara masuk sesuai kondisi kualitas udara.</p>
+            </div>
+          </article>
+
+          <!-- Stage 5 -->
+          <article class="process-step reveal-up">
+            <div class="step-top">
+              <span class="step-num">05</span>
+              <div class="step-icon"><i data-lucide="layers"></i></div>
+              <span class="step-connector" aria-hidden="true"></span>
+            </div>
+            <div class="step-body">
+              <span class="step-status prop">Komponen Filtrasi</span>
+              <h3>5. Multi-Stage Filtration (Filtrasi 3 Tahap)</h3>
+              <p>Udara diarahkan melewati tiga lapisan media penyaring: <strong>Pre-filter</strong>, <strong>HEPA filter</strong>, dan <strong>Karbon Aktif</strong>.</p>
+            </div>
+          </article>
+
+          <!-- Stage 6 -->
+          <article class="process-step reveal-up">
+            <div class="step-top">
+              <span class="step-num">06</span>
+              <div class="step-icon green"><i data-lucide="wind"></i></div>
+              <span class="step-connector" aria-hidden="true"></span>
+            </div>
+            <div class="step-body">
+              <span class="step-status prop">Rancangan Aliran Udara</span>
+              <h3>6. Air Circulation (Distribusi Udara)</h3>
+              <p>Setelah melewati susunan media filtrasi, udara yang telah disaring dialirkan kembali ke dalam ruangan melalui kipas sirkulasi.</p>
+            </div>
+          </article>
+
+          <!-- Stage 7 -->
+          <article class="process-step reveal-up">
+            <div class="step-top">
+              <span class="step-num">07</span>
+              <div class="step-icon"><i data-lucide="monitor-smartphone"></i></div>
+            </div>
+            <div class="step-body">
+              <span class="step-status sim">Tersedia di Web Prototype</span>
+              <h3>7. Monitoring (Pemantauan Dashboard)</h3>
+              <p>Antarmuka web memvisualisasikan parameter sensor, grafik tren waktu, simulasi katup stomata, serta riwayat data CSV.</p>
+            </div>
+          </article>
+        </div>
+
+        <!-- Deep-dive Filtration & Biomimetic Breakdown -->
+        <div class="tech-deepdive-grid reveal-up">
+          <div class="deepdive-card">
+            <div class="dd-badge">Sistem Penyaringan Berlapis</div>
+            <h3>Arsitektur Filtrasi 3 Tahap</h3>
+            <p>Ketiga media filter dirancang bekerja secara berurutan untuk menangani karakteristik polutan yang berbeda:</p>
+            <div class="filter-layers-list">
+              <div class="filter-layer-item">
+                <span class="layer-tag l-pre">Tahap 1 · Pre-Filter</span>
+                <p>Menahan debu kasar, rambut, dan partikel berukuran besar agar tidak cepat menyumbat lapisan filter utama di belakangnya.</p>
+              </div>
+              <div class="filter-layer-item">
+                <span class="layer-tag l-hepa">Tahap 2 · HEPA Filter</span>
+                <p>Dirancang untuk menangkap partikel tersuspensi berukuran halus di udara, termasuk partikel debu halus dari kabut asap.</p>
+              </div>
+              <div class="filter-layer-item">
+                <span class="layer-tag l-carb">Tahap 3 · Activated Carbon</span>
+                <p>Mengadsorpsi sebagian senyawa gas dan bau tidak sedap dari asap. Efektivitas bergantung pada karakteristik polutan dan masa pakai media.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="deepdive-card biomimetic-theme">
+            <div class="dd-badge green">Biomimetic Engineering</div>
+            <h3>Analogi Mekanis Katup Stomata</h3>
+            <p>
+              Pada tumbuhan, <strong>stomata</strong> terdiri dari celah pori yang diapit oleh sepasang sel penjaga (<em>guard cells</em>) yang membuka dan menutup secara responsif terhadap kondisi lingkungan.
+            </p>
+            <p>
+              Dalam rancangan PURIVA, prinsip biologis ini diterjemahkan menjadi <strong>konsep katup mekanis</strong> di saluran udara masuk. Pada <a href="prototype/">Web Prototype PURIVA</a>, pengguna dapat menguji simulasi pembukaan/penutupan katup stomata dan mengamati bagaimana aliran udara bekerja ketika kipas aktif dan katup terbuka.
+            </p>
+            <div class="dd-cta-row">
+              <a href="prototype/" class="btn btn-outline-light">
+                <i data-lucide="sliders"></i>
+                <span>Uji Simulasi Katup di Prototype</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         F. PRODUCT SHOWCASE & HARDWARE REFERENCE
+         ===================================================================== -->
+    <section class="section product-section" id="product" aria-labelledby="product-heading">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">Eksplorasi Perangkat Keras</span>
+          <h2 id="product-heading" class="section-title">Galeri Produk &amp; Arsitektur Hardware</h2>
+          <p class="section-subtitle">
+            Pelajari desain fisik enclosure PURIVA, susunan komponen internal (<em>exploded view</em>), serta skema pengkabelan elektronik berdasarkan referensi rancang bangun proyek.
+          </p>
+        </div>
+
+        <!-- Interactive Gallery Switcher -->
+        <div class="showcase-wrapper reveal-up">
+          <div class="showcase-tabs" role="tablist" aria-label="Pilih tampilan teknis produk PURIVA">
+            <button
+              type="button"
+              class="showcase-tab active"
+              role="tab"
+              aria-selected="true"
+              aria-controls="showcase-panel"
+              data-index="0"
+            >
+              <i data-lucide="box"></i>
+              <div>
+                <strong>1. Render Fisik Produk</strong>
+                <small>Desain Enclosure &amp; Eksterior</small>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              class="showcase-tab"
+              role="tab"
+              aria-selected="false"
+              aria-controls="showcase-panel"
+              data-index="1"
+            >
+              <i data-lucide="layers"></i>
+              <div>
+                <strong>2. Exploded-View Hardware</strong>
+                <small>Tata Letak Komponen Internal</small>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              class="showcase-tab"
+              role="tab"
+              aria-selected="false"
+              aria-controls="showcase-panel"
+              data-index="2"
+            >
+              <i data-lucide="circuit-board"></i>
+              <div>
+                <strong>3. Diagram Pengkabelan</strong>
+                <small>Skema Koneksi Elektronik</small>
+              </div>
+            </button>
+          </div>
+
+          <div class="showcase-stage" id="showcase-panel" role="tabpanel" aria-live="polite">
+            <div class="showcase-image-pane">
+              <span class="showcase-badge" id="sc-badge">Tampilan Eksterior</span>
+              <img
+                src="assets/product/puriva-render.png"
+                alt="Render 3D produk PURIVA Smart Air Purifier"
+                id="sc-main-img"
+                width="800"
+                height="560"
+              >
+              <button type="button" class="btn-zoom" id="sc-zoom-btn" aria-label="Perbesar gambar ke layar penuh">
+                <i data-lucide="maximize-2"></i>
+                <span>Perbesar Gambar</span>
+              </button>
+            </div>
+
+            <div class="showcase-info-pane">
+              <span class="sc-kicker" id="sc-kicker">Referensi Desain 01 / 03</span>
+              <h3 id="sc-title">Desain Fisik &amp; Enclosure PURIVA</h3>
+              <p id="sc-desc">
+                Perangkat PURIVA dirancang menggunakan enclosure berbentuk kotak ringkas berwarna abu-abu gelap (dark charcoal) dengan tampilan industrial minimalis yang cocok untuk ruang keluarga, klinik, maupun ruang kelas.
+              </p>
+              <ul class="sc-points" id="sc-points">
+                <li><strong>Housing Charcoal Ringkas:</strong> Struktur bodi kokoh dengan dudukan kaki berlubang baut untuk penempatan stabil.</li>
+                <li><strong>Layar LCD 16x2 di Panel Depan:</strong> Menampilkan informasi status perangkat dan pembacaan sensor secara langsung.</li>
+                <li><strong>Ventilasi Sirkular &amp; Kisi Sensor:</strong> Lubang sirkulasi udara di bagian depan serta kisi celah untuk paparan sensor lingkungan.</li>
+                <li><strong>Kipas Pendingin &amp; Sirkulasi Samping:</strong> Kipas DC terpasang di sisi samping dilengkapi pelindung jari (fan grille).</li>
+              </ul>
+              <div class="sc-thumbnails" aria-label="Thumbnail Galeri">
+                <button type="button" class="sc-thumb active" data-index="0" aria-label="Lihat Render Produk">
+                  <img src="assets/product/puriva-render.png" alt="Thumbnail Render Produk">
+                </button>
+                <button type="button" class="sc-thumb" data-index="1" aria-label="Lihat Exploded View">
+                  <img src="assets/hardware/exploded-view.jpeg" alt="Thumbnail Exploded View">
+                </button>
+                <button type="button" class="sc-thumb" data-index="2" aria-label="Lihat Wiring Diagram">
+                  <img src="assets/hardware/wiring-diagram.jpeg" alt="Thumbnail Wiring Diagram">
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hardware Components Grid -->
+        <div class="hardware-specs-block reveal-up">
+          <div class="sub-header">
+            <h3>Spesifikasi Komponen Perangkat Keras Utama</h3>
+            <p>Daftar modul elektronik dan mekanis yang menyusun rancang bangun perangkat PURIVA sesuai referensi proyek:</p>
+          </div>
+
+          <div class="hw-cards-grid">
+            <article class="hw-card">
+              <div class="hw-card-top">
+                <span class="hw-icon"><i data-lucide="cpu"></i></span>
+                <span class="hw-tag">Mikrokontroler Utama</span>
+              </div>
+              <h4>ESP32 DevKit</h4>
+              <p>Unit pemrosesan utama yang bertugas membaca data analog/digital dari sensor lingkungan, menampilkan informasi ke layar, serta mengontrol relay dan konektivitas sistem.</p>
+            </article>
+
+            <article class="hw-card">
+              <div class="hw-card-top">
+                <span class="hw-icon"><i data-lucide="cloud-fog"></i></span>
+                <span class="hw-tag">Sensor Gas &amp; Udara</span>
+              </div>
+              <h4>Modul Sensor MQ-135</h4>
+              <p>Modul penginderaan kualitas udara dan gas yang terhubung ke pin input analog ESP32 untuk mendeteksi perubahan konsentrasi polutan gas di udara sekitar.</p>
+            </article>
+
+            <article class="hw-card">
+              <div class="hw-card-top">
+                <span class="hw-icon"><i data-lucide="thermometer-sun"></i></span>
+                <span class="hw-tag">Sensor Lingkungan 4-in-1</span>
+              </div>
+              <h4>Modul Sensor BME680</h4>
+              <p>Sensor lingkungan presisi dengan antarmuka I2C (SDA/SCL) untuk mengumpulkan pengukuran suhu udara (°C), kelembapan relatif (%RH), tekanan atmosfer (hPa), dan resistansi gas (Ω).</p>
+            </article>
+
+            <article class="hw-card">
+              <div class="hw-card-top">
+                <span class="hw-icon"><i data-lucide="monitor"></i></span>
+                <span class="hw-tag">Antarmuka Tampilan Lokal</span>
+              </div>
+              <h4>LCD 16x2 (I2C)</h4>
+              <p>Layar karakter 16 kolom × 2 baris yang dipasang di panel depan enclosure untuk menyajikan pembacaan sensor dan status kerja perangkat secara langsung tanpa harus membuka aplikasi.</p>
+            </article>
+
+            <article class="hw-card">
+              <div class="hw-card-top">
+                <span class="hw-icon"><i data-lucide="toggle-right"></i></span>
+                <span class="hw-tag">Sakelar Kontrol Daya</span>
+              </div>
+              <h4>Relay Module</h4>
+              <p>Modul sakelar elektromagnetik yang dikendalikan oleh pin sinyal ESP32 (VCC, GND, IN) untuk memutus atau menghubungkan aliran daya ke komponen aktuator listrik.</p>
+            </article>
+
+            <article class="hw-card">
+              <div class="hw-card-top">
+                <span class="hw-icon"><i data-lucide="fan"></i></span>
+                <span class="hw-tag">Aktuator Sirkulasi</span>
+              </div>
+              <h4>Kipas DC &amp; Media Filter</h4>
+              <p>Kipas pendingin/sirkulasi DC di sisi samping perangkat yang mendorong pergerakan udara melewati rangkaian konsep filtrasi (Pre-filter, HEPA, dan Karbon Aktif).</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         G. KEY FEATURES
+         ===================================================================== -->
+    <section class="section features-section" id="features" aria-labelledby="features-heading">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">Keunggulan Utama</span>
+          <h2 id="features-heading" class="section-title">Fitur Unggulan PURIVA</h2>
+          <p class="section-subtitle">
+            Dirancang untuk memadukan inovasi rekayasa perangkat keras, konsep adaptasi alam, dan kemudahan pemantauan digital.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <article class="feature-card reveal-up">
+            <div class="feature-icon green"><i data-lucide="leaf"></i></div>
+            <h3>Biomimetic Technology</h3>
+            <p>Mengadaptasi prinsip bukaan pori stomata daun sebagai konsep katup pengaturan aliran udara masuk yang responsif terhadap perubahan kondisi kualitas udara sekitar.</p>
+          </article>
+
+          <article class="feature-card reveal-up">
+            <div class="feature-icon blue"><i data-lucide="activity"></i></div>
+            <h3>Real-Time Air Quality Monitoring</h3>
+            <p>Menyajikan pemantauan parameter lingkungan secara berkala baik melalui layar LCD 16x2 pada perangkat fisik maupun visualisasi grafik interaktif pada Web Prototype.</p>
+          </article>
+
+          <article class="feature-card reveal-up">
+            <div class="feature-icon navy"><i data-lucide="cpu"></i></div>
+            <h3>Multi-Sensor Integration</h3>
+            <p>Sinergi sensor MQ-135 dan BME680 berbasis mikrokontroler ESP32 untuk memantau 5 parameter: suhu, kelembapan, tekanan udara, resistansi gas, dan respons ADC gas.</p>
+          </article>
+
+          <article class="feature-card reveal-up">
+            <div class="feature-icon blue"><i data-lucide="filter"></i></div>
+            <h3>Adaptive Filtration Concept</h3>
+            <p>Konsep penyaringan 3 tahap (Pre-filter, HEPA filter, dan Karbon Aktif) yang dipadukan dengan pengaturan bukaan katup dan kipas sirkulasi untuk efisiensi penyaringan.</p>
+          </article>
+
+          <article class="feature-card reveal-up">
+            <div class="feature-icon navy"><i data-lucide="box"></i></div>
+            <h3>Compact Product Design</h3>
+            <p>Desain enclosure berdimensi ringkas dan minimalis yang hemat tempat, mudah dirawat, dan ideal untuk ditempatkan di kamar tidur, ruang keluarga, klinik, maupun PAUD/TK.</p>
+          </article>
+
+          <article class="feature-card reveal-up">
+            <div class="feature-icon green"><i data-lucide="globe-2"></i></div>
+            <h3>Environmental Awareness</h3>
+            <p>Mengusung semangat <em>Social Enterprise</em> dan edukasi kualitas udara dalam ruangan untuk meningkatkan kesadaran masyarakat terhadap bahaya kabut asap karhutla.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         H. PROTOTYPE ACCESS SECTION (CTA)
+         ===================================================================== -->
+    <section class="section prototype-cta-section" id="prototype-access" aria-labelledby="proto-cta-heading">
+      <div class="container">
+        <div class="proto-cta-banner reveal-up">
+          <div class="proto-cta-content">
+            <span class="proto-pill"><i data-lucide="sparkles"></i> Interactive Web Application</span>
+            <h2 id="proto-cta-heading">Experience PURIVA in Action</h2>
+            <p class="proto-cta-desc">
+              Explore the PURIVA monitoring prototype and discover how the system presents available environmental sensor information.
+            </p>
+            <p class="proto-cta-subdesc">
+              Akses langsung aplikasi <strong>PURIVA Web Prototype</strong> untuk mencoba simulasi pembacaan sensor BME680 &amp; MQ-135, grafik tren waktu (1 jam, 24 jam, 7 hari), kontrol simulasi katup biomimetik stomata, serta fitur ekspor riwayat data CSV.
+            </p>
+
+            <div class="demo-credentials-box" aria-label="Informasi Akun Demo Prototype">
+              <div class="cred-title">
+                <i data-lucide="key-round"></i>
+                <span>Akses Login Demo Prototype:</span>
+              </div>
+              <div class="cred-chips">
+                <span class="cred-chip">Username: <code>admin</code></span>
+                <span class="cred-chip">Password: <code>puriva123</code></span>
+              </div>
+            </div>
+
+            <div class="proto-cta-actions">
+              <a href="prototype/" class="btn btn-light-pri btn-lg">
+                <i data-lucide="external-link"></i>
+                <span>Open Web Prototype</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="proto-cta-preview" aria-hidden="true">
+            <div class="mock-browser-card">
+              <div class="mock-browser-bar">
+                <span class="dots"><i></i><i></i><i></i></span>
+                <span class="mock-url">/prototype/ — PURIVA Dashboard</span>
+              </div>
+              <div class="mock-browser-body">
+                <div class="mock-kpi-row">
+                  <div class="mock-kpi">
+                    <small>Suhu Udara (BME680)</small>
+                    <strong>30,2 °C</strong>
+                  </div>
+                  <div class="mock-kpi">
+                    <small>Kelembapan (%RH)</small>
+                    <strong>75 %RH</strong>
+                  </div>
+                  <div class="mock-kpi">
+                    <small>MQ-135 (ADC Simulasi)</small>
+                    <strong>1.250 ADC</strong>
+                  </div>
+                </div>
+                <div class="mock-flow-strip">
+                  <span><i data-lucide="wind"></i> Udara Masuk</span>
+                  <i data-lucide="arrow-right"></i>
+                  <span><i data-lucide="sprout"></i> Katup Stomata</span>
+                  <i data-lucide="arrow-right"></i>
+                  <span><i data-lucide="layers"></i> HEPA + Karbon</span>
+                  <i data-lucide="arrow-right"></i>
+                  <span><i data-lucide="leaf"></i> Udara Bersih</span>
+                </div>
+                <div class="mock-status-footer">
+                  <span class="mock-badge-live">Simulasi Interaktif Siap Dicoba</span>
+                  <span>5 Menu Navigasi Lengkap</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         I. TEAM SECTION
+         ===================================================================== -->
+    <section class="section team-section" id="team" aria-labelledby="team-heading">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">Tim Pengembang</span>
+          <h2 id="team-heading" class="section-title">Tim Inti Lintas Disiplin PURIVA</h2>
+          <p class="section-subtitle">
+            Kolaborasi mahasiswa lintas program studi dari <strong>Universitas Tanjungpura Pontianak</strong> yang memadukan keahlian analisis kuantitatif, pengembangan produk perangkat lunak, dan rekayasa sistem perangkat keras.
+          </p>
+        </div>
+
+        <div class="team-grid">
+          <!-- Member 1: Immanuel Chiko Selvin -->
+          <article class="team-card reveal-up">
+            <div class="team-photo-wrap">
+              <img
+                src="assets/team/chiko.png"
+                alt="Foto Immanuel Chiko Selvin — Ketua / CEO PURIVA"
+                loading="lazy"
+                width="320"
+                height="320"
+              >
+              <span class="role-badge ceo">Ketua / CEO</span>
+            </div>
+            <div class="team-card-body">
+              <h3>Immanuel Chiko Selvin</h3>
+              <p class="team-major">Program Studi Statistika</p>
+              <p class="team-uni"><i data-lucide="graduation-cap"></i> Universitas Tanjungpura Pontianak</p>
+              <p class="team-bio">
+                Mendalami bidang <em>Applied Statistics &amp; Quantitative Risk Management</em>. Bertanggung jawab terhadap arah strategis, operasional, analisis data, dan keberlanjutan model bisnis proyek PURIVA.
+              </p>
+            </div>
+          </article>
+
+          <!-- Member 2: Evan Mulya Oktarohmat -->
+          <article class="team-card reveal-up">
+            <div class="team-photo-wrap">
+              <img
+                src="assets/team/evan.jpeg"
+                alt="Foto Evan Mulya Oktarohmat — CPO PURIVA"
+                loading="lazy"
+                width="320"
+                height="320"
+              >
+              <span class="role-badge cpo">Chief Product Officer (CPO)</span>
+            </div>
+            <div class="team-card-body">
+              <h3>Evan Mulya Oktarohmat</h3>
+              <p class="team-major">Program Studi Sistem Informasi</p>
+              <p class="team-uni"><i data-lucide="graduation-cap"></i> Universitas Tanjungpura Pontianak</p>
+              <p class="team-bio">
+                Mendalami bidang <em>Software Engineering</em>. Berfokus pada pengembangan antarmuka aplikasi web, manajemen siklus hidup produk, serta perancangan <em>User Experience (UX)</em> sistem pemantauan.
+              </p>
+            </div>
+          </article>
+
+          <!-- Member 3: Perry Buinasi Edgar -->
+          <article class="team-card reveal-up">
+            <div class="team-photo-wrap">
+              <img
+                src="assets/team/perry.jpeg"
+                alt="Foto Perry Buinasi Edgar — CTO PURIVA"
+                loading="lazy"
+                width="320"
+                height="320"
+              >
+              <span class="role-badge cto">Chief Technology Officer (CTO)</span>
+            </div>
+            <div class="team-card-body">
+              <h3>Perry Buinasi Edgar</h3>
+              <p class="team-major">Program Studi Rekayasa Sistem Komputer</p>
+              <p class="team-uni"><i data-lucide="graduation-cap"></i> Universitas Tanjungpura Pontianak</p>
+              <p class="team-bio">
+                Mendalami bidang <em>Network Intelligent Control</em>. Berfokus pada arsitektur perangkat keras (hardware), rancang bangun alat, pengkabelan sistem, dan integrasi sensor mikrokontroler ESP32.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         J. SUSTAINABILITY & PROJECT IMPACT
+         ===================================================================== -->
+    <section class="section impact-section" id="impact" aria-labelledby="impact-heading">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">Keberlanjutan &amp; Dampak Proyek</span>
+          <h2 id="impact-heading" class="section-title">Visi Keberlanjutan &amp; Kontribusi Lingkungan</h2>
+          <p class="section-subtitle">
+            Rencana kontribusi jangka pendek, menengah, dan panjang PURIVA dalam mendukung perlindungan kesehatan masyarakat serta pemulihan ekosistem hutan di Kalimantan.
+          </p>
+        </div>
+
+        <!-- Impact Pillars / SDGs Alignment -->
+        <div class="impact-pillars-grid reveal-up">
+          <article class="impact-pillar-card">
+            <div class="pillar-top">
+              <span class="sdg-tag sdg3">Target Kontribusi · SDGs 3</span>
+              <div class="pillar-icon"><i data-lucide="heart-handshake"></i></div>
+            </div>
+            <h3>Perlindungan Kelompok Rentan</h3>
+            <p>
+              Menargetkan perlindungan kesehatan preventif di dalam ruangan bagi bayi, balita, anak-anak, lansia, serta fasilitas klinik dan PAUD/TK di wilayah rawan kabut asap karhutla.
+            </p>
+          </article>
+
+          <article class="impact-pillar-card">
+            <div class="pillar-top">
+              <span class="sdg-tag sdg9">Target Kontribusi · SDGs 9</span>
+              <div class="pillar-icon"><i data-lucide="cpu"></i></div>
+            </div>
+            <h3>Inovasi Teknologi Terjangkau</h3>
+            <p>
+              Mengembangkan inovasi pemantauan kualitas udara berbasis mikrokontroler dan konsep biomimetik stomata daun yang mudah diakses oleh rumah tangga maupun institusi lokal.
+            </p>
+          </article>
+
+          <article class="impact-pillar-card">
+            <div class="pillar-top">
+              <span class="sdg-tag sdg13">Komitmen Sosial · SDGs 13</span>
+              <div class="pillar-icon green"><i data-lucide="trees"></i></div>
+            </div>
+            <h3>Model Bisnis Social Enterprise</h3>
+            <p>
+              Mengusung komitmen rencana sosial: menyisihkan <strong>2,5% laba bersih untuk program restorasi hutan dan lahan</strong> pada setiap pencapaian 10 unit produk yang terjual.
+            </p>
+          </article>
+        </div>
+
+        <!-- Roadmap & Target Segments -->
+        <div class="roadmap-target-grid reveal-up">
+          <div class="roadmap-box">
+            <h3>Peta Jalan Pengembangan Keberlanjutan Usaha</h3>
+            <p class="muted-note">Tahapan pengembangan yang direncanakan berdasarkan poster dan dokumen proyek PURIVA:</p>
+            <div class="roadmap-steps">
+              <div class="rm-item">
+                <span class="rm-phase">Jangka Pendek</span>
+                <div>
+                  <strong>Validasi MVP, Uji Filtrasi &amp; CADR</strong>
+                  <p>Kalibrasi pembacaan sensor MQ-135 &amp; BME680, penyempurnaan prototipe fisik, serta rencana pengujian efektivitas filtrasi dan <em>Clean Air Delivery Rate</em> (CADR).</p>
+                </div>
+              </div>
+              <div class="rm-item">
+                <span class="rm-phase">Jangka Menengah</span>
+                <div>
+                  <strong>Perluasan Jangkauan &amp; Kemitraan Institusi</strong>
+                  <p>Memperluas edukasi kualitas udara dalam ruangan serta menjajaki kemitraan dengan rumah tangga, sekolah/PAUD, klinik, dan perkantoran di Kalimantan.</p>
+                </div>
+              </div>
+              <div class="rm-item">
+                <span class="rm-phase">Jangka Panjang</span>
+                <div>
+                  <strong>Riset Filter Berbahan Alam &amp; Restorasi</strong>
+                  <p>Pengembangan media filter ramah lingkungan berbahan alam lokal serta realisasi program kontribusi restorasi ekosistem hutan Kalimantan.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="market-poster-box">
+            <h3>Sasaran Pengguna &amp; Poster Resmi Proyek</h3>
+            <p class="muted-note">Segmen ruang yang dituju dalam rancangan implementasi PURIVA:</p>
+            <div class="segment-tags">
+              <span><i data-lucide="home"></i> Rumah Tangga</span>
+              <span><i data-lucide="school"></i> Institusi Pendidikan</span>
+              <span><i data-lucide="building-2"></i> Perkantoran</span>
+              <span><i data-lucide="Hospital"></i> Klinik &amp; Layanan Kesehatan</span>
+              <span><i data-lucide="flask-conical"></i> Laboratorium</span>
+            </div>
+
+            <div class="poster-preview-card">
+              <img
+                src="assets/product/poster-puriva.jpeg"
+                alt="Poster Resmi Proyek PURIVA SPARK Universitas Tanjungpura"
+                loading="lazy"
+                width="360"
+                height="500"
+              >
+              <div class="poster-card-info">
+                <span class="badge-mini">Dokumen Referensi Utama</span>
+                <h4>Poster Inovasi PURIVA</h4>
+                <p>Lihat poster lengkap proyek yang memuat latar belakang, alur kerja 7 tahap, analisis kompetitor, dan profil tim.</p>
+                <button type="button" class="btn btn-secondary btn-sm" id="view-poster-btn">
+                  <i data-lucide="zoom-in"></i>
+                  <span>Lihat Poster Ukuran Penuh</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================================
+       K. CONTACT & FOOTER
+       ===================================================================== -->
+  <footer class="site-footer" id="contact" aria-labelledby="footer-heading">
+    <div class="container">
+      <div class="footer-top-card reveal-up">
+        <div class="footer-cta-text">
+          <span class="footer-kicker">Hubungi Tim Kami</span>
+          <h2 id="footer-heading">Puriva, Solusi Udara Bersih untuk Masa Depan Sehat Kalimantan!</h2>
+          <p>Tertarik berdiskusi mengenai rancang bangun perangkat PURIVA, kolaborasi riset akademik, atau ingin mencoba langsung prototype dashboard kami?</p>
+        </div>
+        <div class="footer-cta-buttons">
+          <a href="mailto:immanuelchikoselvin@gmail.com" class="btn btn-primary">
+            <i data-lucide="mail"></i>
+            <span>Kirim Email</span>
+          </a>
+          <a href="prototype/" class="btn btn-outline-light">
+            <i data-lucide="layout-dashboard"></i>
+            <span>Explore Prototype</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-main-grid">
+        <!-- Col 1: Brand & Overview -->
+        <div class="footer-col brand-col">
+          <a href="#home" class="footer-logo">
+            <img src="assets/logo.png" alt="Logo PURIVA" width="140" height="40">
+          </a>
+          <p class="footer-desc">
+            <strong>PURIVA</strong> — Smart Air Purifier Berbasis Biomimetik untuk Melindungi Kelompok Rentan dari Ancaman Kabut Asap Karhutla di Kalimantan.
+          </p>
+          <div class="uni-badge">
+            <i data-lucide="landmark"></i>
+            <span>Universitas Tanjungpura Pontianak</span>
+          </div>
+        </div>
+
+        <!-- Col 2: Quick Navigation -->
+        <div class="footer-col">
+          <h3>Navigasi Halaman</h3>
+          <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About PURIVA</a></li>
+            <li><a href="#problem-solution">Masalah &amp; Solusi</a></li>
+            <li><a href="#technology">Teknologi &amp; Cara Kerja</a></li>
+            <li><a href="#product">Galeri Produk &amp; Hardware</a></li>
+            <li><a href="#features">Fitur Utama</a></li>
+            <li><a href="#team">Tim Pengembang</a></li>
+            <li><a href="#impact">Keberlanjutan &amp; Dampak</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Prototype Access -->
+        <div class="footer-col">
+          <h3>Akses Aplikasi</h3>
+          <ul class="footer-links">
+            <li><a href="prototype/"><strong>Buka Web Prototype (/prototype/)</strong></a></li>
+            <li><a href="prototype/">Simulasi Sensor BME680 &amp; MQ-135</a></li>
+            <li><a href="prototype/">Visualisasi Katup Stomata</a></li>
+            <li><a href="prototype/">Ekspor Riwayat Data CSV</a></li>
+          </ul>
+          <p class="footer-note">
+            Akun Demo Prototype:<br>
+            Username: <code>admin</code> · Password: <code>puriva123</code>
+          </p>
+        </div>
+
+        <!-- Col 4: Verified Contact Information -->
+        <div class="footer-col">
+          <h3>Kontak Terverifikasi</h3>
+          <ul class="footer-contact-list">
+            <li>
+              <i data-lucide="map-pin"></i>
+              <div>
+                <strong>Afiliasi Institusi</strong>
+                <span>Universitas Tanjungpura (UNTAN), Pontianak, Kalimantan Barat</span>
+              </div>
+            </li>
+            <li>
+              <i data-lucide="mail"></i>
+              <div>
+                <strong>Email Resmi Tim</strong>
+                <a href="mailto:immanuelchikoselvin@gmail.com">immanuelchikoselvin@gmail.com</a>
+              </div>
+            </li>
+            <li>
+              <i data-lucide="phone"></i>
+              <div>
+                <strong>Telepon / WhatsApp</strong>
+                <a href="https://wa.me/6285247331661" target="_blank" rel="noopener noreferrer">+62 852 4733 1661</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 <strong>PURIVA Team</strong> — Universitas Tanjungpura Pontianak. All rights reserved.</p>
+        <p class="footer-disclaimer">
+          Informasi pada halaman ini merujuk pada dokumen rancang bangun dan poster resmi proyek PURIVA. Halaman <a href="prototype/">/prototype/</a> menampilkan simulasi antarmuka pemantauan.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =====================================================================
+       IMAGE PREVIEW LIGHTBOX MODAL
+       ===================================================================== -->
+  <div class="lightbox-modal" id="lightbox-modal" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption" hidden>
+    <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+    <div class="lightbox-Dialog">
+      <div class="lightbox-header">
+        <span id="lightbox-caption" class="lightbox-title">Pratinjau Gambar</span>
+        <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Tutup pratinjau gambar">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="lightbox-body">
+        <img src="" alt="" id="lightbox-img">
+      </div>
+    </div>
   </div>
-  <div class="c"><h3>Konsep Biomimetik Stomata</h3>
-   <p>Stomata adalah pori pada daun yang bukaannya diatur oleh sel penjaga. PURIVA meniru prinsip pengaturan bukaan tersebut melalui katup atau flap mekanis di saluran udara masuk.</p>
-   <p class="mu">Visualisasi ini adalah analogi mekanis dari prinsip stomata dan simulasi konsep biomimetik, bukan gambaran mekanisme biologis yang sesungguhnya.</p></div>
- </div>
-</section>
 
-<section class="pg" id="pg-his" hidden>
- <div class="c">
-  <div class="bar"><input id="hq" type="search" placeholder="Cari data riwayat…" aria-label="Cari riwayat">
-   <select id="hr" aria-label="Filter rentang waktu"><option value="all">Semua waktu</option><option value="1h">1 jam terakhir</option><option value="24h">24 jam terakhir</option><option value="7d">7 hari terakhir</option></select>
-   <button class="btn" data-a="sort" id="sortb"></button>
-   <button class="btn pri" data-a="csv"><i data-lucide="download"></i>Ekspor CSV</button></div>
-  <div class="tw"><table><thead><tr><th>Waktu</th><th>Suhu (°C)</th><th>Kelembapan (%RH)</th><th>MQ-135 (ADC)</th><th>Resistansi gas BME680 (Ω)</th><th>Tekanan (hPa)</th><th>Status PURIVA</th><th>Status kipas</th></tr></thead><tbody id="hb"></tbody></table></div>
-  <div class="bar"><small class="mu" id="hi"></small><div><button class="btn" data-a="prev">Sebelumnya</button> <button class="btn" data-a="next">Berikutnya</button></div></div>
- </div>
-</section>
-
-<section class="pg" id="pg-set" hidden>
- <div class="g2">
-  <div class="c"><h3>Interval Simulasi</h3><div class="seg"><button data-iv="2">2 detik</button><button data-iv="5">5 detik</button><button data-iv="10">10 detik</button></div></div>
-  <div class="c"><h3>Tema</h3><div class="seg"><button data-th="light">Terang</button><button data-th="dark">Gelap</button></div></div>
-  <div class="c"><h3>Kontrol Simulasi</h3><div class="btns"><button class="btn pri" data-a="sstart">Mulai simulasi</button><button class="btn" data-a="spause">Jeda simulasi</button><button class="btn" data-a="sreset">Reset ke kondisi awal</button></div>
-   <small class="mu">Reset tidak menghapus status login.</small></div>
- </div>
-</section>
-</div>
-
-<footer class="foot">Prototype ini menggunakan data simulasi. Nilai sensor bukan hasil pengukuran udara nyata. MQ-135 menampilkan nilai respons/ADC simulasi, sedangkan BME680 menampilkan parameter suhu, kelembapan, tekanan, dan resistansi gas simulasi. Sistem ini tidak menghasilkan pengukuran PM2.5 atau AQI yang tervalidasi.</footer>
-</div></div>
-<div id="toasts" aria-live="polite"></div>
-<script src="js/app.js"></script>
-</body></html>
+  <!-- Scripts -->
+  <script src="js/navigation.js" defer></script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>

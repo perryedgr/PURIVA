@@ -1,0 +1,228 @@
+/* ==========================================================================
+   PURIVA WEB PROFILE — RESPONSIVE DESIGN
+   Supports: Desktop, Laptop, Tablet, and Android Smartphones
+   ========================================================================== */
+
+/* Large Laptops & Small Desktops (<= 1180px) */
+@media (max-width: 1180px) {
+  .process-timeline {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .hero-grid {
+    gap: 32px;
+  }
+
+  .card-top-left {
+    left: -6px;
+  }
+
+  .card-top-right {
+    right: -6px;
+  }
+}
+
+/* Tablets & Compact Laptops (<= 992px) */
+@media (max-width: 992px) {
+  :root {
+    --header-height: 72px;
+  }
+
+  .section {
+    padding: 72px 0;
+  }
+
+  /* Mobile Navigation Drawer */
+  .nav-cta-btn {
+    display: none;
+  }
+
+  .mobile-menu-toggle {
+    display: inline-flex;
+  }
+
+  .main-nav {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+    padding: 20px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    transform: translateY(-120%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.28s ease, opacity 0.25s ease, visibility 0.25s;
+    z-index: 995;
+  }
+
+  .main-nav.open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .nav-link {
+    padding: 12px 16px;
+    font-size: 1rem;
+  }
+
+  .nav-mobile-cta {
+    display: block;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+  }
+
+  /* Hero Section */
+  .hero-section {
+    padding: 44px 0 72px;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+
+  .hero-visual {
+    max-width: 640px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* About, Tech, Showcase, CTA, Impact Grids */
+  .about-grid,
+  .ps-comparison-grid,
+  .tech-deepdive-grid,
+  .showcase-stage,
+  .proto-cta-banner,
+  .roadmap-target-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .context-banner {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 24px;
+  }
+
+  .context-divider {
+    width: 100%;
+    height: 1px;
+  }
+
+  .process-timeline {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hw-cards-grid,
+  .features-grid,
+  .team-grid,
+  .impact-pillars-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-main-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Smartphones & Small Tablets (<= 680px) */
+@media (max-width: 680px) {
+  .container {
+    width: min(var(--container-max), 100% - 28px);
+  }
+
+  .section {
+    padding: 56px 0;
+  }
+
+  .section-header {
+    margin-bottom: 36px;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+  }
+
+  .hero-cta-group .btn {
+    width: 100%;
+  }
+
+  .hero-highlights {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .product-stage {
+    padding: 16px;
+  }
+
+  .floating-card {
+    position: static;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .about-card-main,
+  .ps-column,
+  .deepdive-card,
+  .showcase-wrapper,
+  .roadmap-box,
+  .market-poster-box {
+    padding: 22px 18px;
+  }
+
+  .biomimetic-callout {
+    flex-direction: column;
+  }
+
+  .vision-mission-grid,
+  .process-timeline,
+  .showcase-tabs,
+  .hw-cards-grid,
+  .features-grid,
+  .team-grid,
+  .impact-pillars-grid,
+  .footer-main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .showcase-image-pane {
+    min-height: 260px;
+  }
+
+  .proto-cta-banner {
+    padding: 32px 22px;
+  }
+
+  .mock-kpi-row {
+    grid-template-columns: 1fr;
+  }
+
+  .poster-preview-card {
+    grid-template-columns: 1fr;
+  }
+
+  .poster-preview-card img {
+    height: 240px;
+  }
+
+  .footer-top-card {
+    padding: 26px 22px;
+  }
+
+  .footer-cta-buttons,
+  .footer-cta-buttons .btn {
+    width: 100%;
+  }
+}
